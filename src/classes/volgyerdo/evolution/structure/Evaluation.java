@@ -3,21 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package volgyerdo.evolution.logic;
-
-import volgyerdo.evolution.structure.Evolution;
+package volgyerdo.evolution.structure;
 
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class EvolutionLogic {
-
-    public static void evolve(Evolution evolution){
-        
-    }
+public interface Evaluation {
     
-    private EvolutionLogic() {
-    }
+    public double getValue(Individual individual);
     
 }

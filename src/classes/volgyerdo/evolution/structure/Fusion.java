@@ -5,12 +5,16 @@
  */
 package volgyerdo.evolution.structure;
 
+import volgyerdo.commons.math.probability.Distribution;
+
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
 public interface Fusion {
     
-    public Individual fuse(Individual individual1, Individual individual2, double blockSize);
+    /* Fusion of two individuals. The individuals are separated into blocks
+    and the blocks are randomly merged into a new individual. */
+    public Individual fuse(Individual individual1, Individual individual2, Distribution blockSize);
     
 }

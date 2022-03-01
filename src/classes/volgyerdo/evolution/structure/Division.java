@@ -11,6 +11,8 @@ package volgyerdo.evolution.structure;
  */
 public interface Division {
     
+    /* Individual is devided into two individuals. The returned individual is
+    a perfect copy of the original. */
     public Individual divide(Individual individual);
     
 }

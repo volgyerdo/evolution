@@ -5,15 +5,20 @@
  */
 package volgyerdo.evolution.structure;
 
-import volgyerdo.commons.math.probability.Distribution;
-
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Jump {
+public class Aspects {
     
-    /* A randomly selected block is jumped from one individual to another. */
-    public void jump(Individual individual1, Individual individual2, Distribution blockSize);
+    public Aging aging;
+    public Division division;
+    public Evaluation evaluation;
+    public Fusion fusion;
+    public Jump jump;
+    public Living living;
+    public Mutation mutation;
+    public Similarity similarity;
+    
     
 }

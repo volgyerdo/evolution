@@ -15,8 +15,8 @@ public class Evolution {
     
     public List<Individual> population;
     
-    public EvolutionParameters parameters;
+    public Parameters parameters;
     
-    public Mutation mutation;
+    public Aspects aspects;
     
 }
