@@ -33,7 +33,7 @@ public class EvolutionLogic {
         living(population, aspects.living);
         Map<Individual, Double> newAges = getAges(population, aspects.aging);
         Map<Individual, Double> deltaAges = getDeltaAges(ages, newAges);
-        ageMutation(population, aspects.mutation, parameters.ageMutationRate);
+        ageMutation(population, deltaAges, aspects.mutation, parameters.ageMutationRate);
     }
 
     private static void prototyping(List<Individual> population, Prototyping prototyping) {
@@ -64,9 +64,9 @@ public class EvolutionLogic {
         }
     }
 
-    private static void ageMutation(List<Individual> population, Mutation mutation, Distribution ageMutationRate) {
+    private static void ageMutation(List<Individual> population, Map<Individual, Double> deltaAges, Mutation mutation, Distribution ageMutationRate) {
         for (Individual individual : population) {
-            int mutationCount = (int) Math.round(ageMutationRate.sample());
+            int mutationCount = (int) (Math.round(ageMutationRate.sample()) * deltaAges.get(individual));
             while (mutationCount-- > 0) {
                 mutation.mutate(individual);
             }
