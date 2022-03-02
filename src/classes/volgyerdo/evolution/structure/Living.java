@@ -9,7 +9,7 @@ package volgyerdo.evolution.structure;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Living {
+public interface Living extends Aspect{
     
     public void live(Individual individual);
     

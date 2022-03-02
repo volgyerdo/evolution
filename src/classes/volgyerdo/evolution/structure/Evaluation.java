@@ -9,8 +9,8 @@ package volgyerdo.evolution.structure;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Evaluation {
+public interface Evaluation extends Aspect{
     
-    public double getValue(Individual individual);
+    public double evaluate(Individual individual);
     
 }

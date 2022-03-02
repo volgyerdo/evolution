@@ -5,15 +5,13 @@
  */
 package volgyerdo.evolution.structure;
 
-import volgyerdo.commons.math.probability.Distribution;
-
 /**
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Mutation {
+public interface Mutation extends Aspect{
     
-    /* A dandomly selected part of the inidividual is mutated. */
-    public void mutate(Individual individual, Distribution mutationRate);
+    /* A randomly selected part of the inidividual is mutated. */
+    public void mutate(Individual individual);
     
 }

@@ -18,6 +18,7 @@ public class Aspects {
     public Jump jump;
     public Living living;
     public Mutation mutation;
+    public Prototyping prototyping;
     public Similarity similarity;
     
     

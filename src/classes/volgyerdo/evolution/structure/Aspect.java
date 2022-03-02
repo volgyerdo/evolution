@@ -9,8 +9,6 @@ package volgyerdo.evolution.structure;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Aging extends Aspect{
-    
-    public double age(Individual individual);
+public interface Aspect {
     
 }

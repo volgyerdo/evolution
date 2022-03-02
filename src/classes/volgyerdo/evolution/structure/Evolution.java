@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class Evolution {
+public class Evolution implements Individual{
     
     public List<Individual> population;
     

@@ -9,8 +9,8 @@ package volgyerdo.evolution.structure;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Similarity {
+public interface Similarity extends Aspect{
     
-    public double getSimilarity(Individual individual1, Individual individual2);
+    public double similar(Individual individual1, Individual individual2);
     
 }
