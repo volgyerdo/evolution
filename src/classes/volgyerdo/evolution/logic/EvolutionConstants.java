@@ -17,11 +17,17 @@ public class EvolutionConstants {
     public static final Distribution DEFAULT_MAX_POPULATION_SIZE 
             = new NormalDistribution(1.0E2, 1.0E1);
     
+    public static final Distribution DEFAULT_DIVISION_RATE 
+            = new NormalDistribution(0.5, 0.25);
+    
     public static final Distribution DEFAULT_DIVISION_MUTATION_RATE
             = new NormalDistribution(1.0E-6, 1.0E-7);
     
     public static final Distribution DEFAULT_AGE_MUTATION_RATE 
             = new NormalDistribution(1.0E-10, 1.0E-11);
+    
+    public static final Distribution DEFAULT_FUSION_RATE 
+            = new NormalDistribution(0.5, 0.25);
     
     public static final Distribution DEFAULT_FUSION_BLOCK_SIZE 
             = new NormalDistribution(1.0E6, 1.0E5);
@@ -30,7 +36,7 @@ public class EvolutionConstants {
             = new NormalDistribution(1.0E3, 1.0E2);
     
     public static final Distribution DEFAULT_JUMP_RATE 
-            = new NormalDistribution(1.0E-3, 1.0E-2);
+            = new NormalDistribution(1.0E-3, 1.0E-4);
     
     private EvolutionConstants() {
     }

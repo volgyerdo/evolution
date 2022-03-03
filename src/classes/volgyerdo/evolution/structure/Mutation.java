@@ -11,7 +11,7 @@ package volgyerdo.evolution.structure;
  */
 public interface Mutation extends Aspect{
     
-    /* A randomly selected part of the inidividual is mutated. */
+    /* A randomly selected elementary part of the inidividual is mutated. */
     public void mutate(Individual individual);
     
 }

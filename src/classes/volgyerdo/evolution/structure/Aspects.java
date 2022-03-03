@@ -15,7 +15,7 @@ public class Aspects {
     public Division division;
     public Evaluation evaluation;
     public Fusion fusion;
-    public Jump jump;
+    public Jumping jumping;
     public Living living;
     public Mutation mutation;
     public Prototyping prototyping;

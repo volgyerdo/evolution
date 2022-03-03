@@ -16,6 +16,9 @@ public class Parameters{
     /* Maximum number of individuals */
     public Distribution maxPopulationSize;
     
+    /* [Division probability / cycle] */
+    public Distribution divisionRate;
+    
     /* [Mutation probability / base unit] */
     public Distribution divisionMutationRate;
     
@@ -25,13 +28,13 @@ public class Parameters{
     /* Size of blocks in fusion */
     public Distribution fusionBlockSize;
     
-    /* [Fusion probability / age] for one pair of individuals */
-    public Distribution fusionFrequency;
+    /* [Fusion probability / cycle] for one pair of individuals */
+    public Distribution fusionRate;
     
     /* Size of blocks in jump */
     public Distribution jumpBlockSize;
     
-    /* [Jump probability / age unit] for one pair of individuals */
+    /* [Jump probability / cycle] for one pair of individuals */
     public Distribution jumpRate;
     
 }

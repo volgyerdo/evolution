@@ -11,11 +11,11 @@ import volgyerdo.evolution.structure.Aspects;
 import volgyerdo.evolution.structure.Division;
 import volgyerdo.evolution.structure.Evaluation;
 import volgyerdo.evolution.structure.Fusion;
-import volgyerdo.evolution.structure.Jump;
 import volgyerdo.evolution.structure.Living;
 import volgyerdo.evolution.structure.Mutation;
 import volgyerdo.evolution.structure.Similarity;
 import volgyerdo.evolution.structure.Prototyping;
+import volgyerdo.evolution.structure.Jumping;
 
 /**
  *
@@ -34,8 +34,8 @@ public class AspectFactory {
                 aspects.evaluation = (Evaluation) aspect;
             } else if (aspect instanceof Fusion) {
                 aspects.fusion = (Fusion) aspect;
-            } else if (aspect instanceof Jump) {
-                aspects.jump = (Jump) aspect;
+            } else if (aspect instanceof Jumping) {
+                aspects.jumping = (Jumping) aspect;
             } else if (aspect instanceof Living) {
                 aspects.living = (Living) aspect;
             } else if (aspect instanceof Mutation) {
