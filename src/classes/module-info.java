@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-module volgyerdo.commons {
+module volgyerdo.evolution {
     
-    requires volgyerdo.math;
+    requires volgyerdo.commons;
     
     exports volgyerdo.evolution.logic;
     exports volgyerdo.evolution.structure;

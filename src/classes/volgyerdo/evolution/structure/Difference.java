@@ -9,8 +9,8 @@ package volgyerdo.evolution.structure;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Aging extends Aspect{
+public interface Difference<T extends Individual> extends Aspect<T>{
     
-    public double age(Individual individual);
+    public double differ(T individual1, T individual2);
     
 }

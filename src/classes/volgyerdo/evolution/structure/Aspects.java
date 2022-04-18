@@ -11,15 +11,13 @@ package volgyerdo.evolution.structure;
  */
 public class Aspects {
     
-    public Aging aging;
     public Division division;
     public Evaluation evaluation;
     public Fusion fusion;
     public Jumping jumping;
-    public Living living;
     public Mutation mutation;
     public Prototyping prototyping;
-    public Similarity similarity;
+    public Difference difference;
     
     
 }

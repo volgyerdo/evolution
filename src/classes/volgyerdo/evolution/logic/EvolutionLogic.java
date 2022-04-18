@@ -6,13 +6,10 @@
 package volgyerdo.evolution.logic;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import volgyerdo.evolution.structure.Aspects;
+import volgyerdo.evolution.structure.Entity;
 import volgyerdo.evolution.structure.Evolution;
-import volgyerdo.evolution.structure.Individual;
 import volgyerdo.evolution.structure.Parameters;
 
 /**
@@ -24,70 +21,50 @@ public class EvolutionLogic {
     public static void evolve(Evolution evolution) {
         prototyping(evolution);
 
-        Map<Individual, Double> ages = getAges(evolution);
-
-        living(evolution);
-
-        Map<Individual, Double> newAges = getAges(evolution);
-        Map<Individual, Double> deltaAges = getDeltaAges(ages, newAges);
-
-        ageMutation(evolution, deltaAges);
+        ageMutation(evolution);
 
         jumping(evolution);
 
         division(evolution);
 
-        fusion(evolution);
+        List<Object[]> evaluation = getEvaluation(evolution);
+
+        fusion(evolution, evaluation);
+
+        death(evolution, evaluation);
+
+        aging(evolution);
     }
 
     private static void prototyping(Evolution evolution) {
-        List<Individual> population = evolution.population;
+        List<Entity> population = evolution.population;
         Aspects aspects = evolution.aspects;
         if (population.isEmpty()) {
-            population.add(aspects.prototyping.prototype());
+            population.add(PopulationFactory.createEntity(aspects.prototyping.prototype()));
         }
     }
 
-    private static Map<Individual, Double> getAges(Evolution evolution) {
-        List<Individual> population = evolution.population;
-        Aspects aspects = evolution.aspects;
-        Map<Individual, Double> ages = new HashMap<>();
-        for (Individual individual : population) {
-            ages.put(individual, aspects.aging.age(individual));
-        }
-        return ages;
-    }
-
-    private static Map<Individual, Double> getDeltaAges(Map<Individual, Double> ages, Map<Individual, Double> newAges) {
-        Map<Individual, Double> delta = new HashMap<>();
-        for (Individual individual : ages.keySet()) {
-            delta.put(individual, newAges.get(individual) - ages.get(individual));
-        }
-        return delta;
-    }
-
-    private static void living(Evolution evolution) {
-        List<Individual> population = evolution.population;
-        Aspects aspects = evolution.aspects;
-        for (Individual individual : population) {
-            aspects.living.live(individual);
+    private static void aging(Evolution evolution) {
+        List<Entity> population = evolution.population;
+        for (Entity individual : population) {
+            individual.age++;
         }
     }
 
-    private static void ageMutation(Evolution evolution, Map<Individual, Double> deltaAges) {
-        List<Individual> population = evolution.population;
+    private static void ageMutation(Evolution evolution) {
+        List<Entity> population = evolution.population;
         Aspects aspects = evolution.aspects;
         Parameters parameters = evolution.parameters;
-        for (Individual individual : population) {
-            int mutationCount = (int) (Math.round(parameters.ageMutationRate.sample()) * deltaAges.get(individual));
+        for (Entity entity : population) {
+            int mutationCount = (int) (Math.round(parameters.ageMutationRate.sample()));
             while (mutationCount-- > 0) {
-                aspects.mutation.mutate(individual);
+                aspects.mutation.mutate(entity.individual);
             }
         }
     }
 
     private static void jumping(Evolution evolution) {
-        List<Individual> population = evolution.population;
+        List<Entity> population = evolution.population;
         Aspects aspects = evolution.aspects;
         Parameters parameters = evolution.parameters;
         if (population.size() < 2) {
@@ -95,29 +72,30 @@ public class EvolutionLogic {
         }
         int jumpCount = (int) Math.round(parameters.jumpRate.sample());
         while (jumpCount-- > 0) {
-            Individual[] individuals = PopulationLogic.randomSelectTwo(population);
-            aspects.jumping.jump(individuals[0], individuals[1], parameters.jumpBlockSize);
+            Entity[] entities = PopulationLogic.randomSelectTwo(population);
+            aspects.jumping.jump(entities[0].individual, entities[1].individual,
+                    parameters.jumpBlockSize);
         }
     }
 
     private static void division(Evolution evolution) {
-        List<Individual> population = evolution.population;
+        List<Entity> population = evolution.population;
         Aspects aspects = evolution.aspects;
         Parameters parameters = evolution.parameters;
         int divisionCount = (int) Math.round(parameters.divisionRate.sample());
         while (divisionCount-- > 0) {
-            Individual individual = PopulationLogic.randomSelect(population);
-            individual = aspects.division.divide(individual);
+            Entity entity = PopulationLogic.randomSelect(population);
+            entity = PopulationFactory.createEntity(aspects.division.divide(entity.individual));
             int mutationRate = (int) Math.round(parameters.divisionMutationRate.sample());
             while (mutationRate-- > 0) {
-                aspects.mutation.mutate(individual);
+                aspects.mutation.mutate(entity.individual);
             }
-            population.add(individual);
+            population.add(entity);
         }
     }
 
-    private static void fusion(Evolution evolution) {
-        List<Individual> population = evolution.population;
+    private static void fusion(Evolution evolution, List<Object[]> evaluation) {
+        List<Entity> population = evolution.population;
         Aspects aspects = evolution.aspects;
         Parameters parameters = evolution.parameters;
         int fusionCount = (int) Math.round(parameters.fusionRate.sample());
@@ -125,41 +103,73 @@ public class EvolutionLogic {
             if (population.size() < 2) {
                 return;
             }
-            Individual[] bestPair = getBestPair(evolution);
-            Individual newIndividual = aspects.fusion.fuse(bestPair[0], bestPair[1], parameters.fusionBlockSize);
-            population.add(newIndividual);
+            Entity[] bestPair = getBestPair(evolution, evaluation);
+            Entity newEntity = PopulationFactory.createEntity(
+                    aspects.fusion.fuse(bestPair[0].individual, bestPair[1].individual,
+                    parameters.fusionBlockSize));
+            population.add(newEntity);
         }
 
     }
 
-    private static Individual[] getBestPair(Evolution evolution) {
+    private static Entity[] getBestPair(Evolution evolution, List<Object[]> evaluation) {
         Aspects aspects = evolution.aspects;
-        TreeMap<Double, Individual[]> ranking = new TreeMap<>();
-        List<Object[]> evaluation = getEvaluation(evolution);
+        double rank, bestRank = 0;
+        Entity[] bestPair = new Entity[]{(Entity) evaluation.get(0)[0],
+            (Entity) evaluation.get(1)[0]};
         for (int i = 0; i < evaluation.size(); i++) {
             for (int j = 0; j < evaluation.size(); j++) {
                 if (i != j) {
-                    ranking.put(((Double) evaluation.get(i)[1])
+                    rank = ((Double) evaluation.get(i)[1])
                             * ((Double) evaluation.get(j)[1])
-                            / aspects.similarity.similar((Individual) evaluation.get(i)[0],
-                                    (Individual) evaluation.get(j)[0]),
-                            new Individual[]{(Individual) evaluation.get(i)[0],
-                                (Individual) evaluation.get(j)[0]});
+                            * aspects.difference.differ(
+                                    ((Entity) evaluation.get(i)[0]).individual,
+                                    ((Entity) evaluation.get(j)[0]).individual);
+                    if (rank > bestRank) {
+                        bestRank = rank;
+                        bestPair = new Entity[]{(Entity) evaluation.get(i)[0],
+                            (Entity) evaluation.get(j)[0]};
+                    }
                 }
             }
         }
-        return ranking.lastEntry().getValue();
+        return bestPair;
     }
 
     private static List<Object[]> getEvaluation(Evolution evolution) {
-        List<Individual> population = evolution.population;
+        List<Entity> population = evolution.population;
         Aspects aspects = evolution.aspects;
         List<Object[]> values = new ArrayList<>();
-        for (Individual individual : population) {
+        for (Entity entity : population) {
             values.add(new Object[]{
-                individual, aspects.evaluation.evaluate(individual)});
+                entity, aspects.evaluation.evaluate(entity.individual)});
         }
         return values;
+    }
+
+    private static void death(Evolution evolution, List<Object[]> evaluation) {
+        List<Entity> population = evolution.population;
+        Parameters parameters = evolution.parameters;
+        int maxSize = (int) parameters.maxPopulationSize.sample();
+        while (population.size() > maxSize) {
+            kill(evolution, evaluation);
+        }
+    }
+
+    private static void kill(Evolution evolution, List<Object[]> evaluation) {
+        List<Entity> population = evolution.population;
+        Entity worstEntity = population.get(0);
+        int worstIndex = 0;
+        double worstValue = Double.MAX_VALUE;
+        for (int i = 0; i < evaluation.size(); i++) {
+            if (worstValue > (Double) evaluation.get(i)[1]) {
+                worstIndex = i;
+                worstValue = (Double) evaluation.get(i)[1];
+                worstEntity = (Entity) evaluation.get(i)[0];
+            }
+        }
+        population.remove(worstEntity);
+        evaluation.remove(worstIndex);
     }
 
     private EvolutionLogic() {

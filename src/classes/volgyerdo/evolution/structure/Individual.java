@@ -9,6 +9,6 @@ package volgyerdo.evolution.structure;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Individual {
+public interface Individual<T>{
     
 }

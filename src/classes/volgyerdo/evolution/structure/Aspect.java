@@ -9,6 +9,6 @@ package volgyerdo.evolution.structure;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Aspect {
+public interface Aspect <T extends Individual>{
     
 }

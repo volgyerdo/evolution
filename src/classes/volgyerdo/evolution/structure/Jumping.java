@@ -11,9 +11,9 @@ import volgyerdo.commons.math.probability.Distribution;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Jumping extends Aspect{
+public interface Jumping<T extends Individual> extends Aspect<T>{
     
     /* A randomly selected block is jumped from one individual to another. */
-    public void jump(Individual individual1, Individual individual2, Distribution blockSize);
+    public void jump(T individual1, T individual2, Distribution blockSize);
     
 }

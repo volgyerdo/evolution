@@ -9,9 +9,9 @@ package volgyerdo.evolution.structure;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Mutation extends Aspect{
+public interface Mutation<T extends Individual> extends Aspect<T>{
     
     /* A randomly selected elementary part of the inidividual is mutated. */
-    public void mutate(Individual individual);
+    public void mutate(T individual);
     
 }

@@ -9,10 +9,10 @@ package volgyerdo.evolution.structure;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Division extends Aspect{
+public interface Division<T extends Individual> extends Aspect<T>{
     
     /* Individual is devided into two individuals. The returned individual is
     a perfect copy of the original. */
-    public Individual divide(Individual individual);
+    public Individual divide(T individual);
     
 }

@@ -11,9 +11,9 @@ import java.util.List;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public class Evolution implements Individual{
+public class Evolution<T extends Individual> implements Individual<T>{
     
-    public List<Individual> population;
+    public List<Entity<T>> population;
     
     public Parameters parameters;
     

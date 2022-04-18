@@ -5,9 +5,11 @@
  */
 package volgyerdo.evolution.logic;
 
-import java.util.ArrayList;
-import volgyerdo.evolution.structure.Aspect;
+import java.util.List;
+import volgyerdo.evolution.structure.Aspects;
 import volgyerdo.evolution.structure.Evolution;
+import volgyerdo.evolution.structure.Individual;
+import volgyerdo.evolution.structure.Parameters;
 
 /**
  *
@@ -15,11 +17,27 @@ import volgyerdo.evolution.structure.Evolution;
  */
 public class EvolutionFactory {
 
-    public static Evolution createEvolution(Aspect... aspectList) {
+    public static Evolution createEvolution(Aspects aspects) {
         Evolution evolution = new Evolution();
-        evolution.aspects = AspectFactory.createAspects(aspectList);
+        evolution.aspects = aspects;
         evolution.parameters = ParameterFactory.createDefaultParameters();
-        evolution.population = new ArrayList<>();
+        evolution.population = PopulationFactory.createEmptyPopulation();
+        return evolution;
+    }
+    
+    public static Evolution createEvolution(Aspects aspects, Parameters parameters) {
+        Evolution evolution = new Evolution();
+        evolution.aspects = aspects;
+        evolution.parameters = parameters;
+        evolution.population = PopulationFactory.createEmptyPopulation();
+        return evolution;
+    }
+    
+    public static Evolution createEvolution(Aspects aspects, Parameters parameters, List<Individual> individuals) {
+        Evolution evolution = new Evolution();
+        evolution.aspects = aspects;
+        evolution.parameters = parameters;
+        evolution.population = PopulationFactory.createPopulation(individuals);
         return evolution;
     }
 

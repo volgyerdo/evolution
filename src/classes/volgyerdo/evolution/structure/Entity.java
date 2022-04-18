@@ -9,8 +9,9 @@ package volgyerdo.evolution.structure;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Similarity extends Aspect{
+public class Entity<T extends Individual> {
     
-    public double similar(Individual individual1, Individual individual2);
+    public T individual;
+    public long age = 0;
     
 }

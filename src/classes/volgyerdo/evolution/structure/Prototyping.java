@@ -9,8 +9,8 @@ package volgyerdo.evolution.structure;
  *
  * @author Volgyerdo Nonprofit Kft.
  */
-public interface Prototyping extends Aspect{
+public interface Prototyping<T extends Individual> extends Aspect<T>{
     
-    public Individual prototype();
+    public T prototype();
     
 }

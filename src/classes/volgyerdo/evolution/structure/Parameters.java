@@ -22,7 +22,7 @@ public class Parameters{
     /* [Mutation probability / base unit] */
     public Distribution divisionMutationRate;
     
-    /* [Mutation probability / base unit / age] */
+    /* [Mutation probability / base unit] */
     public Distribution ageMutationRate;
     
     /* Size of blocks in fusion */
